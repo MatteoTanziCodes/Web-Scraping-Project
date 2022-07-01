@@ -25,6 +25,11 @@ file_name = 'GeorgiaState_Faculty_guide.csv'
 def scraper_l(law_url, data_frame):
     law_page_content = requests.get(law_url)
     law_page_soup = BeautifulSoup(law_page_content.content, 'html5lib')
+    law_container = law_page_soup.find('div', attrs={'class':'site-container'})
+    law_sub_container = law_container.find('ul', attrs={'class':'mainul'})
+    prof_link_list = law_sub_container.find_all('div', attrs={'class':'esg-entry-media-wrapper'})
+
+    print(prof_link_list)
 
 # scraper for math, law and comms
 def scraper_mcc(math_url, chem_url, comms_url, data_frame):
@@ -50,22 +55,20 @@ def scraper_ehp(edu_url, history_url, polisci_url, data_frame):
 
 # scraper for robinson and policy
 def scraper_rp(robinson_url, policy_url, data_frame):
-    edu_page_content = requests.get(edu_url)
-    edu_page_soup = BeautifulSoup(edu_page_content.content, 'html5lib')
+    robinson_page_content = requests.get(robinson_url)
+    robinson_page_soup = BeautifulSoup(robinson_page_content.content, 'html5lib')
 
-    history_page_content = requests.get(history_url)
-    history_page_soup = BeautifulSoup(history_page_content.content, 'html5lib')
+    policy_page_content = requests.get(policy_url)
+    policy_page_soup = BeautifulSoup(policy_page_content.content, 'html5lib')
 
-    polisci_page_content = requests.get(polisci_url)
-    polisci_page_soup = BeautifulSoup(polisci_page_content.content, 'html5lib')
-
+# Create CSV from dataframe
 def dataframe_to_csv(data_frame, file_name):
     data_frame.to_csv(file_name, index=False)
     print("Data Frame Compiled")
 
 ## Function Calls
 scraper_l(law_url)
-scraper_mcc(math_url, chem_url, comms_url)
-scraper_ehp(edu_url, history_url, polisci_url)
-scraper_rp(robinson_url, policy_url)
-dataframe_to_csv(data_frame, file_name)
+# scraper_mcc(math_url, chem_url, comms_url)
+# scraper_ehp(edu_url, history_url, polisci_url)
+# scraper_rp(robinson_url, policy_url)
+# dataframe_to_csv(data_frame, file_name)
