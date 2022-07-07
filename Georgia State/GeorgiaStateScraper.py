@@ -46,11 +46,10 @@ def profile_scrape(url, Name, Unit, data_frame):
     child_page_soup = BeautifulSoup(child_page_content.content, 'html5lib')
     
     child_container1 = child_page_soup.find('div', attrs={'class':'site-container'})
-    child_container2 = child_page_soup.find('div', attrs={'class':'wpb_column vc_column_container vc_col-sm-12'})
     child_container3 = child_page_soup.find('div', attrs={'class':'rainbow'})
 
     links = child_container1.find_all('a')
-    links2 = child_container2.find_all('dl')
+    links2 = child_container1.find_all('dl')
     links3 = child_container3.find('header')
     
     
@@ -88,7 +87,7 @@ def profile_scrape(url, Name, Unit, data_frame):
         Title = Title_dept[0]
         Title = Title.strip()
         print(Title)
-        Department = Title_dept[1]
+        Department = Title_dept[5]
         Department = Department.strip()
         print(Department)
     except:
