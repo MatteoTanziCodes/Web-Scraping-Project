@@ -87,7 +87,7 @@ def profile_scrape(url, Name, Unit, data_frame):
         Title = Title_dept[0]
         Title = Title.strip()
         print(Title)
-        Department = Title_dept[5]
+        Department = Title_dept[4]
         Department = Department.strip()
         print(Department)
     except:
