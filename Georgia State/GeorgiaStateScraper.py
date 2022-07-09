@@ -1,7 +1,5 @@
 import pandas as pd
-from pkg_resources import EntryPoint
 import requests
-import re
 from bs4 import BeautifulSoup
 
 # URLS for main Directories
@@ -24,11 +22,27 @@ def scraper(url ,dataframe):
             if('edu/profile/' in prof_url and prof_url != 'https://aysps.gsu.edu/profile/'):
                 name = prof_url.split("/")[4]
                 name = name.replace('-', ' ')
-
                 unit = prof_url.split("/")[2]
                 unit = unit.split(".")[0]
-                if (unit == 'aysps'):
-                    unit = 'policy studies'
+                if unit == "law":
+                    unit = 'Law'
+                elif unit == "mathstat":
+                    unit = 'Math'
+                elif unit == 'communication':
+                    unit = 'Journalism/Communications/Media'
+                elif unit == 'robinson':
+                    unit = 'Business School'
+                elif unit == 'education':
+                    unit = 'Education'
+                elif unit == 'chemistry':
+                    unit = 'Chemistry'
+                elif unit == 'aysps':
+                    unit = 'Econ'
+                elif unit == 'politicalscience':
+                    unit = 'PoliSci'
+                elif unit == 'history':
+                    unit = 'history'
+                
                 print('*****************')
                 print(prof_url)
                 print(name)
