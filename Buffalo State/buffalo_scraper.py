@@ -3,6 +3,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import csv
+import re
 
 ## Create Data Frame
 column_name = ['Name', 'Title', 'Phone Number', 'Department', 'Email']
@@ -16,25 +17,48 @@ ENDRANK = 7931
 
 def scraper(url, dataframe, current_rank, ENDRANK):
 
+    num = 1
     while (current_rank != ENDRANK + 10):
 
         new_url = url + str(current_rank)
-        
-        page_content = requests.get(new_url)
+        try:
+            page_content = requests.get(new_url, timeout=10)
+        except:
+            None
         page_soup = BeautifulSoup(page_content.content, 'html5lib')
         container = page_soup.find('div', attrs={'class':'search-results-container'})
         links = container.find_all('div', attrs={'search-result search-result-people'})
+
+        for link in links:
+            text = link.getText()
+            text = text.replace("\n","")
+            text = re.split(r'\s{2,}', text)
+
+            # get name
+            name = text[1]
+
+            # get title
+            title = text[2]
+
+            # get Department
+            department = text[3]
+
+            # get email and phone
+            for x in range(len(text)):
+                if "@buffalo.edu" in text[x]:
+                    email = text[x]
+                if "716" in text[x]:
+                    phone_num = text[x]
+
+            print("person complete")
+            dataframe_entry_point = len(data_frame) + 1
+            data_frame.loc[dataframe_entry_point] = [name, title, phone_num, department, email]
         
-        # get name
-
-        # get title
-
-        # get Phone Number
-
-        # get Department
-
-        # get email
-
         current_rank = current_rank + 10
+        print("page: " + str(num) + " complete, Rank:" + str(current_rank))
+        num = num + 1
+            
+    data_frame.to_csv(file_name, index=False)
+    print("Data Frame Compiled")
 
 scraper(url, data_frame, current_rank, ENDRANK)
