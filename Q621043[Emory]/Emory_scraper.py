@@ -19,6 +19,7 @@ links = container.find_all('div', attrs={'class':'faculty well'})
 for link in links:
     try:
         name = link.find('span', attrs={'class':'faculty-name'})
+        name = name.getText()
     except:
         name = ''
     
@@ -34,6 +35,7 @@ for link in links:
 
     try:
         title = link.find('li', attrs={'class':'title'})
+        title = title.getText()
     except:
         title = ''
     
